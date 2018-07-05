@@ -1,5 +1,5 @@
-//version 1.02, last updated 1/24/17
-//removed the feature I added last version where you HAD to ask it a question
+//version 1.03, last updated 7/5/18
+//added a !roll command
 
 var responses = [
 "It is certain",

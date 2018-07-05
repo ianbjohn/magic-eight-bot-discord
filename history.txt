@@ -1,0 +1,8 @@
+1.03 - 7/5/18
+-Added a !roll command, which generates a random number between 0-999999999, used for various things.
+
+1.02 - 1/24/17
+-removed the feature I added last version where you HAD to ask it a question
+
+1.01
+-Made it so that a message to the bot needed to end in a ?, otherwise the bot would reply in a snarky tone telling you to ask a question.
