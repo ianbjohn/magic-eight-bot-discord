@@ -55,7 +55,7 @@ client.on("message", message => {
 	}
 	//roll command
 	else if (message.content == "!roll")
-		message.channel.sendMessage(Math.random() * 1000000000);
+		message.channel.sendMessage(Math.round(Math.random() * 1000000000));
 })
 
 
