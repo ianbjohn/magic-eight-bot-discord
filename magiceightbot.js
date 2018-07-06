@@ -1,5 +1,5 @@
-//version 1.03, last updated 7/5/18
-//added a !roll command
+//version 1.04, last updated 7/6/2018
+//added a !meme command
 
 var responses = [
 "It is certain",
@@ -24,22 +24,30 @@ var responses = [
 "Very doubtful"];
 
 
+//Discord.js stuff
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
+//file stuff
+const fs = require("fs");	//file-reading stuff
+var memes;					//array that holds our memes. Lol
+
+function checkIfMemeInList(meme, list) {
+	//TODO: searches the list of memes, string-compares each one to the meme in question, and returns 1 if a match is found
+}
+
 
 client.on("ready", () => {
+	memes = fs.readFileSync("memes.txt", "utf8").split("\" \"");	//since I want memes to be able to span multiple lines, each entry is separated by 2 quotation marks, to symbolize it being a quote
 	console.log("Boolin");
 })
 
 
 client.on("message", message => {
+	//asking the bot a question
 	//only respond if the bot was @'d
 	if (message.mentions.users.first() != undefined) {
 		if (message.mentions.users.first().username == "magiceightbot") {
-			//if (message.content.charAt(message.content.length - 1) != '?')
-			//	message.channel.sendMessage("Ask a question dumbass");		//got rid of this feature because its funnier to respond to any message like it's a question
-			//else {
 			switch (Math.floor(Math.random() * 2)) {
 			case 0:
 				message.channel.sendMessage("Let me see...");
@@ -56,7 +64,10 @@ client.on("message", message => {
 	//roll command
 	else if (message.content == "!roll")
 		message.channel.sendMessage(Math.round(Math.random() * 1000000000));
+	//meme command
+	else if (message.content == "!meme")
+		message.channel.sendMessage(memes[Math.floor(Math.random() * memes.length)]);
 })
 
 
-client.login("MjE5Mjc5Mzc2NjExNjcyMDY1.C0WBmw.BECStpd5u02JWH8kWG_ZL_Kw73A");
+client.login("MjE5Mjc5Mzc2NjExNjcyMDY1.C0WBmw.BECStpd5u02JWH8kWG_ZL_Kw73A");	//lol don't steal my key
