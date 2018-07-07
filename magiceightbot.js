@@ -58,7 +58,6 @@ client.on("message", message => {
 			}
 			
 			message.channel.sendMessage(responses[Math.floor(Math.random() * responses.length)]);
-			//}
 		}
 	}
 	//roll command
@@ -70,4 +69,4 @@ client.on("message", message => {
 })
 
 
-client.login("MjE5Mjc5Mzc2NjExNjcyMDY1.C0WBmw.BECStpd5u02JWH8kWG_ZL_Kw73A");	//lol don't steal my key
+client.login("key");
