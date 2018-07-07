@@ -1,3 +1,6 @@
+1.05 - 7/7/2018
+-Added an !addmeme command, which will add a meme to the list of memes, unless it's already been added. The channel will be notified as such by the bot.
+
 1.04 - 7/6/18
 -Added a !meme command, which will send a random inside-meme to the chat from a text file.
 -Cleaned up code a bit (It could still use work as it's pretty clunky-looking)

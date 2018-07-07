@@ -1,5 +1,5 @@
-//version 1.04, last updated 7/6/2018
-//added a !meme command
+//version 1.05 - 7/7/2018
+//Added an !addmeme command
 
 var responses = [
 "It is certain",
@@ -32,8 +32,23 @@ const client = new Discord.Client();
 const fs = require("fs");	//file-reading stuff
 var memes;					//array that holds our memes. Lol
 
-function checkIfMemeInList(meme, list) {
+function checkIfMemeInList(meme) {
 	//TODO: searches the list of memes, string-compares each one to the meme in question, and returns 1 if a match is found
+	//see if there's a way to do binary search on lists of strings (There probably is and I'm just dumb)
+	for (var i = 0; i < memes.length; i++) {
+		if (meme.localeCompare(memes[i]) == 0)
+			return 1;
+	}
+	return 0;
+}
+
+function addMemeToList(meme) {
+	//add meme to file
+	var stream = fs.createWriteStream("memes.txt", {flags: 'a'});
+	stream.write("\" \"" + meme);
+	stream.end();
+	//add meme to array
+	memes.push(meme);
 }
 
 
@@ -66,6 +81,17 @@ client.on("message", message => {
 	//meme command
 	else if (message.content == "!meme")
 		message.channel.sendMessage(memes[Math.floor(Math.random() * memes.length)]);
+	//add meme command
+	else if (message.content.includes("!addmeme")) {
+		var memeinquestion = message.content.substring(9, message.content.length);
+		if (checkIfMemeInList(memeinquestion))
+			message.channel.sendMessage("\"" + memeinquestion + "\" is already in the list");
+		else {
+			addMemeToList(memeinquestion);
+			message.channel.sendMessage("\"" + memeinquestion + "\" has been added to the list");
+
+		}
+	}
 })
 
 
