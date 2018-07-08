@@ -56,7 +56,7 @@ function strcmp(str1, str2) {
 	while (count < str1.length) {
 		c1 = str1.charCodeAt(count);
 		if (count == str2.length)  {
-			c2 = 0;					//if str2 is shorter than str1, the code should be 0 (null)
+			c2 = 0;
 			break;
 		}
 		c2 = str2.charCodeAt(count);
