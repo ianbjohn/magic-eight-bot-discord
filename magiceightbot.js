@@ -52,10 +52,20 @@ function checkIfMemeInList(meme) {
 
 function strcmp(str1, str2) {
 	//since localeCompare() doesn't compare strings the same way that sort() does (At least I can't figure out a way to do it), this function compares strings in Unicode order, similar to the strcmp() function in the C standard library.
-	var count = 0;
-	while (count < str1.length && count < str2.length && (str1.charAt(count) == str2.charAt(count)))
-		count++;
-	return str1.charCodeAt(count) - str2.charCodeAt(count);
+	var count = 0, c1 = 0, c2 = 0;
+	while (count < str1.length) {
+		c1 = str1.charCodeAt(count);
+		if (count == str2.length)  {
+			c2 = 0;					//if str2 is shorter than str1, the code should be 0 (null)
+			break;
+		}
+		c2 = str2.charCodeAt(count);
+		if (str1.charAt(count) == str2.charAt(count))
+			count++;
+		else
+			break;
+	}
+	return c1 - c2;
 }
 
 
