@@ -1,3 +1,8 @@
+1.06 - 7/8/2018
+-Changed the linear search on the list of memes to a binary search to make speed better as the list continues to grow.
+-Translated the strcmp() function from the C standard library into javascript, since I couldn't get localeCompare() to cooperate with sort().
+-Added a developer !test command to make sure binary search works as intended.
+
 1.05 - 7/7/2018
 -Added an !addmeme command, which will add a meme to the list of memes, unless it's already been added. The channel will be notified as such by the bot.
 

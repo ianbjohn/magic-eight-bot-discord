@@ -1,5 +1,5 @@
-//version 1.05 - 7/7/2018
-//Added an !addmeme command
+//1.06 - 7/8/2018
+//Changed the linear search on the list of memes to a binary search to make speed better as the list continues to grow.
 
 var responses = [
 "It is certain",
@@ -33,14 +33,31 @@ const fs = require("fs");	//file-reading stuff
 var memes;					//array that holds our memes. Lol
 
 function checkIfMemeInList(meme) {
-	//TODO: searches the list of memes, string-compares each one to the meme in question, and returns 1 if a match is found
-	//see if there's a way to do binary search on lists of strings (There probably is and I'm just dumb)
-	for (var i = 0; i < memes.length; i++) {
-		if (meme.localeCompare(memes[i]) == 0)
-			return 1;
+	//binary search the list of memes
+	var a = 0, b = memes.length - 1;
+	var middle, sign;
+	while (a <= b) {
+		middle = Math.floor((a + b) / 2);
+		sign = strcmp(meme, memes[middle]);
+		if (sign < 0)
+			b = middle - 1;
+		else if (sign > 0)
+			a = middle + 1;
+		else
+			return middle;
 	}
-	return 0;
+	return -1;
 }
+
+
+function strcmp(str1, str2) {
+	//since localeCompare() doesn't compare strings the same way that sort() does (At least I can't figure out a way to do it), this function compares strings in Unicode order, similar to the strcmp() function in the C standard library.
+	var count = 0;
+	while (count < str1.length && count < str2.length && (str1.charAt(count) == str2.charAt(count)))
+		count++;
+	return str1.charCodeAt(count) - str2.charCodeAt(count);
+}
+
 
 function addMemeToList(meme) {
 	//add meme to file
@@ -54,6 +71,7 @@ function addMemeToList(meme) {
 
 client.on("ready", () => {
 	memes = fs.readFileSync("memes.txt", "utf8").split("\" \"");	//since I want memes to be able to span multiple lines, each entry is separated by 2 quotation marks, to symbolize it being a quote
+	memes.sort();
 	console.log("Boolin");
 })
 
@@ -84,15 +102,25 @@ client.on("message", message => {
 	//add meme command
 	else if (message.content.includes("!addmeme")) {
 		var memeinquestion = message.content.substring(9, message.content.length);
-		if (checkIfMemeInList(memeinquestion))
+		if (checkIfMemeInList(memeinquestion) != -1)
 			message.channel.sendMessage("\"" + memeinquestion + "\" is already in the list");
 		else {
 			addMemeToList(memeinquestion);
+			memes.sort();
 			message.channel.sendMessage("\"" + memeinquestion + "\" has been added to the list");
-
 		}
+	}
+	//developer !test command to make sure binary search on strings works as intended
+	else if (message.content == "!test") {
+		console.log(memes[0].localeCompare(memes[0]));
+		var count = 0;
+		for (var i = 0; i < memes.length; i++) {
+			if (checkIfMemeInList(memes[i]) == -1)
+				count++;
+		}
+		console.log("# of false negatives: " + count + "/" + memes.length);
 	}
 })
 
 
-client.login("key");
+client.login("token");
