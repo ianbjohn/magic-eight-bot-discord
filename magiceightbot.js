@@ -66,6 +66,7 @@ function addMemeToList(meme) {
 	stream.end();
 	//add meme to array
 	memes.push(meme);
+	memes.sort();
 }
 
 
@@ -106,7 +107,6 @@ client.on("message", message => {
 			message.channel.sendMessage("\"" + memeinquestion + "\" is already in the list");
 		else {
 			addMemeToList(memeinquestion);
-			memes.sort();
 			message.channel.sendMessage("\"" + memeinquestion + "\" has been added to the list");
 		}
 	}
