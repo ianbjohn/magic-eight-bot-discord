@@ -1,3 +1,7 @@
+1.07 - 9/8/2018
+-Fixed a bug with !addmeme so that now it'll only register if !addmeme is at the beginning of the message
+-Made the bot randomly react messages with random reactions
+
 1.06 - 7/8/2018
 -Changed the linear search on the list of memes to a binary search to make speed better as the list continues to grow.
 -Translated the strcmp() function from the C standard library into javascript, since I couldn't get localeCompare() to cooperate with sort().

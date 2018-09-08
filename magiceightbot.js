@@ -1,5 +1,6 @@
-//1.06 - 7/8/2018
-//Changed the linear search on the list of memes to a binary search to make speed better as the list continues to grow.
+//1.07 - 9/8/18
+//Fixed a bug with !addmeme so that now it'll only register if !addmeme is at the beginning of the message
+//Made the bot randomly react messages with random reactions
 
 var responses = [
 "It is certain",
@@ -88,6 +89,18 @@ client.on("ready", () => {
 
 
 client.on("message", message => {
+	//randomly react a message, for comedic effect
+	if (Math.floor(Math.random() * 20) == 0) {
+		switch (Math.floor(Math.random() * 2)) {
+		case 0:
+			message.react(":virgin:");
+			break;
+		case 1:
+			message.react(":chad:");
+			break;
+		}
+	}
+	
 	//asking the bot a question
 	//only respond if the bot was @'d
 	if (message.mentions.users.first() != undefined) {
@@ -111,7 +124,7 @@ client.on("message", message => {
 	else if (message.content == "!meme")
 		message.channel.sendMessage(memes[Math.floor(Math.random() * memes.length)]);
 	//add meme command
-	else if (message.content.includes("!addmeme")) {
+	else if (message.content.length >= 9 && message.content.substring(0, 8).equals("!addmeme")) {
 		var memeinquestion = message.content.substring(9, message.content.length);
 		if (checkIfMemeInList(memeinquestion) != -1)
 			message.channel.sendMessage("\"" + memeinquestion + "\" is already in the list");
