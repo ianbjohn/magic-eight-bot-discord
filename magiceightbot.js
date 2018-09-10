@@ -90,13 +90,14 @@ client.on("ready", () => {
 
 client.on("message", message => {
 	//randomly react a message, for comedic effect
-	if (Math.floor(Math.random() * 20) == 0) {
+	//EDIT: Whatever version of Discord.js I currently have right now won't let reactions happen, so sending a standard message will just have to suffice for the time being
+	if (Math.floor(Math.random() * 50) == 0) {
 		switch (Math.floor(Math.random() * 2)) {
 		case 0:
-			message.react(":virgin:");
+			message.channel.sendMessage(":virgin:");
 			break;
 		case 1:
-			message.react(":chad:");
+			message.channel.sendMessage(":chad:");
 			break;
 		}
 	}
@@ -124,7 +125,7 @@ client.on("message", message => {
 	else if (message.content == "!meme")
 		message.channel.sendMessage(memes[Math.floor(Math.random() * memes.length)]);
 	//add meme command
-	else if (message.content.length >= 9 && message.content.substring(0, 8).equals("!addmeme")) {
+	else if (message.content.length >= 9 && message.content.substring(0, 8) == "!addmeme") {
 		var memeinquestion = message.content.substring(9, message.content.length);
 		if (checkIfMemeInList(memeinquestion) != -1)
 			message.channel.sendMessage("\"" + memeinquestion + "\" is already in the list");
