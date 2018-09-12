@@ -1,6 +1,5 @@
-//1.07 - 9/8/18
-//Fixed a bug with !addmeme so that now it'll only register if !addmeme is at the beginning of the message
-//Made the bot randomly react messages with random reactions
+//1.08 - 9/11/18
+//Added a new !fortune command to let the user know their luck for the day
 
 var responses = [
 "It is certain",
@@ -23,6 +22,17 @@ var responses = [
 "My sources say no",
 "Outlook not so good",
 "Very doubtful"];
+
+var fortunes = [
+"Extremely lucky",
+"Very lucky",
+"Lucky",
+"Slightly lucky",
+"You make your luck today",
+"Slightly unlucky",
+"Unlucky",
+"Very unlucky",
+"Extremely unlucky"];
 
 
 //Discord.js stuff
@@ -94,10 +104,10 @@ client.on("message", message => {
 	if (Math.floor(Math.random() * 50) == 0) {
 		switch (Math.floor(Math.random() * 2)) {
 		case 0:
-			message.channel.sendMessage(":virgin:");
+			message.channel.sendMessage("<:virgin:350715935176261652>");
 			break;
 		case 1:
-			message.channel.sendMessage(":chad:");
+			message.channel.sendMessage("<:chad:350693649220370442>");
 			break;
 		}
 	}
@@ -134,6 +144,9 @@ client.on("message", message => {
 			message.channel.sendMessage("\"" + memeinquestion + "\" has been added to the list");
 		}
 	}
+	//fortune command
+	else if (message.content == "!fortune")
+		message.reply("Your fortune for today is:\n**" + fortunes[Math.floor(Math.random() * fortunes.length)] + "**");
 	//developer !test command to make sure binary search on strings works as intended
 	else if (message.content == "!test") {
 		console.log(memes[0].localeCompare(memes[0]));
@@ -145,6 +158,5 @@ client.on("message", message => {
 		console.log("# of false negatives: " + count + "/" + memes.length);
 	}
 })
-
 
 client.login("token");
