@@ -45,7 +45,6 @@ var memes;			//array that holds our memes. Lol
 
 //get the token
 const token = fs.readFileSync('token.txt', 'utf8').replace('\n', '');
-console.log(token);
 
 
 function checkIfMemeInList(meme) {
