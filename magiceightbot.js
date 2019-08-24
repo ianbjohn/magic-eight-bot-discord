@@ -71,7 +71,7 @@ function addMemeToList(meme) {
 	stream.end();
 	//add meme to sorted array
 	let i;
-	for (i = memes.length - 1; i >= 0, memes[i] > meme; i++)
+	for (i = memes.length - 1; i >= 0, memes[i] > meme; i--)
 		memes[i + 1] = memes[i];
 	memes[i + 1] = meme;
 }
