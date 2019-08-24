@@ -1,5 +1,5 @@
-//1.08 - 9/11/18
-//Added a new !fortune command to let the user know their luck for the day
+//1.10 - 8/23/19
+//Changed the way memes are added - Instead of pushing and then sorting, it inserts into the already-sorted list, improving the time to O(n).
 
 const responses = [
 	'It is certain',
@@ -69,9 +69,11 @@ function addMemeToList(meme) {
 	let stream = fs.createWriteStream('memes.txt', {flags: 'a'});
 	stream.write('\" \"' + meme);
 	stream.end();
-	//add meme to array
-	memes.push(meme);
-	memes.sort();
+	//add meme to sorted array
+	let i;
+	for (i = memes.length - 1; i >= 0, memes[i] > meme; i++)
+		memes[i + 1] = memes[i];
+	memes[i + 1] = meme;
 }
 
 

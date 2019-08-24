@@ -1,3 +1,6 @@
+1.10 - 8/23/19
+-Changed the way memes are added - Instead of pushing and then sorting, it inserts into the already-sorted list, improving the time to O(n).
+
 1.09 - 8/23/19
 -Improved the code quite a bit. Made it more JavaScript-y.
 -Improved logging in with the token by having it be read from a file instead of hard-coded into the program.
