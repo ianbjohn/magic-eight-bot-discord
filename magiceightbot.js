@@ -85,8 +85,9 @@ client.on('ready', () => {
 
 
 client.on('message', message => {
-	//DEBUG: log to console
-	//console.log(`${message.content}\n`);
+	//DEBUG: log data to console
+	console.log(`${message.content.length} | ${message.content.substring(0, 5)}`);
+	//console.log(`${message.author.id}`);
 
 	//randomly react a message, for comedic effect
 	//EDIT: Whatever version of Discord.js I currently have right now won't let reactions happen, so sending a standard message will just have to suffice for the time being
@@ -118,8 +119,19 @@ client.on('message', message => {
 		}
 	}
 	//roll command
-	else if (message.content == '!roll')
-		message.channel.sendMessage(Math.round(Math.random() * 1000000000));
+	//else if (message.content.legnth >= 5) {
+	//	console.log('cool');
+		else if (message.content.substring(0, 5)  == '!roll') {
+			console.log('  ROLL');
+			roll_command = message.content.split(' '); //put the command and its arguments in an array
+			console.log(roll_command.length);
+			//The second first (and only) argument of the array should be the number of digits generated (1-9, 9 by default)
+			if (roll_command.length == 1)
+				message.channel.sendMessage(Math.round(Math.random() * 1000000000));
+			else if (roll_command.length == 2 && Number.isInteger(roll_command[1]) && roll_command[1] >= 1 && roll_command[1] < 10)
+				message.channel.sendMessage(Math.round(Math.random() * (math.pow(10, roll_command[1]))));
+		}
+	//}
 	//meme command
 	else if (message.content == '!meme')
 		message.channel.sendMessage(memes[Math.floor(Math.random() * memes.length)]);
