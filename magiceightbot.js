@@ -86,7 +86,6 @@ client.on('ready', () => {
 
 client.on('message', message => {
 	//DEBUG: log data to console
-	console.log(`${message.content.length} | ${message.content.substring(0, 5)}`);
 	//console.log(`${message.author.id}`);
 
 	//randomly react a message, for comedic effect
@@ -105,7 +104,7 @@ client.on('message', message => {
 	//asking the bot a question
 	//only respond if the bot was @'d
 	if (message.mentions.users.first() != undefined) {
-		if (message.mentions.users.first().username == 'magiceightbot') {
+		if (message.mentions.users.first().username === 'magiceightbot') {
 			switch (Math.floor(Math.random() * 2)) {
 			case 0:
 				message.channel.sendMessage('Let me see...');
@@ -119,24 +118,22 @@ client.on('message', message => {
 		}
 	}
 	//roll command
-	//else if (message.content.legnth >= 5) {
-	//	console.log('cool');
-		else if (message.content.substring(0, 5)  == '!roll') {
-			console.log('  ROLL');
-			roll_command = message.content.split(' '); //put the command and its arguments in an array
-			console.log(roll_command.length);
-			//The second first (and only) argument of the array should be the number of digits generated (1-9, 9 by default)
-			if (roll_command.length == 1)
-				message.channel.sendMessage(Math.round(Math.random() * 1000000000));
-			else if (roll_command.length == 2 && Number.isInteger(roll_command[1]) && roll_command[1] >= 1 && roll_command[1] < 10)
-				message.channel.sendMessage(Math.round(Math.random() * (math.pow(10, roll_command[1]))));
+	else if (message.content.substring(0, 5) === '!roll') {
+		roll_command = message.content.split(' '); //put the command and its arguments in an array
+		//The second first (and only) argument of the array should be the number of digits generated (1-9, 9 by default)
+		if (roll_command.length == 1)
+			message.channel.sendMessage(Math.round(Math.random() * 1000000000));
+		else if (roll_command.length == 2) {
+			let roll_count = parseInt(roll_command[1]);
+			if (roll_count != NaN && roll_count >= 1 && roll_count < 10)
+				message.channel.sendMessage(Math.round(Math.random() * (Math.pow(10, roll_command[1]))));
 		}
-	//}
+	}
 	//meme command
 	else if (message.content == '!meme')
 		message.channel.sendMessage(memes[Math.floor(Math.random() * memes.length)]);
 	//add meme command
-	else if (message.content.length >= 9 && message.content.substring(0, 8) == '!addmeme') {
+	else if (message.content.length >= 9 && message.content.substring(0, 8) === '!addmeme') {
 		var memeinquestion = message.content.substring(9, message.content.length);
 		if (checkIfMemeInList(memeinquestion) != -1)
 			message.channel.sendMessage(`\"${memeinquestion}\" is already in the list`);
@@ -146,10 +143,10 @@ client.on('message', message => {
 		}
 	}
 	//fortune command
-	else if (message.content == '!fortune')
+	else if (message.content === '!fortune')
 		message.reply(`Your fortune for today is:\n**${fortunes[Math.floor(Math.random() * fortunes.length)]}**`);
 	//developer !test command to make sure binary search on strings works as intended
-	else if (message.content == '!test') {
+	else if (message.content === '!test') {
 		let count = 0;
 		for (let i = 0; i < memes.length; i++) {
 			if (checkIfMemeInList(memes[i]) == -1)

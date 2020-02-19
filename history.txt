@@ -1,3 +1,9 @@
+1.11 - 2/18/20
+-Finally updated the roll command - users can now specify how many digits they want the roll to be (1-9)
+-There was an extremely weird quirk that I still don't fully understand where, even though the comparing both the length of a string and a substring
+of a string both return true independently, their logical AND would return false. But removing the length check and just having the substring check
+finally solved the issue. This had been infuriating me so much that I straight up just stopped working on this project from the last update until now.
+
 1.10 - 8/23/19
 -Changed the way memes are added - Instead of pushing and then sorting, it inserts into the already-sorted list, improving the time to O(n).
 
