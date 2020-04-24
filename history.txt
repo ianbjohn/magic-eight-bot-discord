@@ -1,3 +1,7 @@
+1.12 - 4/24/20
+-My biggest theory to the constant crashing of is memory leaks due to files not being closed (Because the application is continuously running). I could be wrong, but either way it seems to be
+better practice to use streams for these scenarios. So I updated the fetching of the token to use streams, and will do the same with memes in the future.
+
 1.11 - 2/18/20
 -Finally updated the roll command - users can now specify how many digits they want the roll to be (1-9)
 -There was an extremely weird quirk that I still don't fully understand where, even though the comparing both the length of a string and a substring

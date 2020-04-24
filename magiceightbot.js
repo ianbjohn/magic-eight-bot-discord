@@ -41,11 +41,28 @@ const client = new Discord.Client();
 
 //file stuff
 const fs = require('fs');	//file-reading stuff
+var fd;				//File descriptor (See if different ones should be used for reading and writing to prevent locking)
 var memes;			//array that holds our memes. Lol
+var buffer = [];		//Used for reading data from streams
+
 
 //get the token
-const token = fs.readFileSync('token.txt', 'utf8').replace('\n', '');
+var token;
+fd = fs.createReadStream('token.txt');
+fd.on('data', (data) => {
+	buffer += data;
+});
+fd.on('end', () => {
+	token = buffer.slice(0, buffer.length - 1);	//Copies the data we received from the stream into the token, removing the newling char
+	buffer = [];				//Empty our buffer
+	client.login(token);			//Now that we have the token, we can login
+});
+fd.on('error', (err) => {
+	console.log(err.stack);
+});
 
+//read stream into data buffer, when separator is read, copy everything up to the separator, add it to the memes array
+//	Be sure to loop in case there were multiple separators in the chunk
 
 function checkIfMemeInList(meme) {
 	//binary search the list of memes
@@ -78,6 +95,7 @@ function addMemeToList(meme) {
 
 
 client.on('ready', () => {
+	//TODO: Convert this into a stream to hopefully optimize speed more (Since it's a fairly lare file.)
 	memes = fs.readFileSync('memes.txt', 'utf8').split('\" \"');	//since I want memes to be able to span multiple lines, each entry is separated by 2 quotation marks, to symbolize it being a quote
 	memes.sort();
 	console.log('Boolin');
@@ -154,6 +172,4 @@ client.on('message', message => {
 		}
 		console.log(`# of false negatives: ${count} / ${memes.length}`);
 	}
-})
-
-client.login(token);
+});
