@@ -1,3 +1,10 @@
+1.13 - 10/2/20
+-Changed the delimiter for memes in the memes.txt file to use a record separator ASCII character (0x1E) instead of " ". This will not only make the size of the file a little bit smaller but
+is also less likely to be included in any added memes.
+-Fixed some typos in comments.
+-Updated some code to work with changes in the Discord.js API.
+-Added some JSON info for the application
+
 1.12 - 4/24/20
 -My biggest theory to the constant crashing of is memory leaks due to files not being closed (Because the application is continuously running). I could be wrong, but either way it seems to be
 better practice to use streams for these scenarios. So I updated the fetching of the token to use streams, and will do the same with memes in the future.

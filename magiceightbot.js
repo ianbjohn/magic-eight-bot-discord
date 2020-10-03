@@ -1,5 +1,7 @@
-//1.10 - 8/23/19
-//Changed the way memes are added - Instead of pushing and then sorting, it inserts into the already-sorted list, improving the time to O(n).
+//Magic Eight Bot (Discord Version) script
+//Author: Ian Johnson
+//Free software and all that, just say where you got it from
+
 
 const responses = [
 	'It is certain',
@@ -41,6 +43,7 @@ const client = new Discord.Client();
 
 //file stuff
 const fs = require('fs');	//file-reading stuff
+const MEME_DELIMITER = String.fromCharCode(0x1E);	//Delimit each meme with a record separator ASCII character. This should be uncommon enough to not appear in any memes added
 var fd;				//File descriptor (See if different ones should be used for reading and writing to prevent locking)
 var memes;			//array that holds our memes. Lol
 var buffer = [];		//Used for reading data from streams
@@ -53,7 +56,7 @@ fd.on('data', (data) => {
 	buffer += data;
 });
 fd.on('end', () => {
-	token = buffer.slice(0, buffer.length - 1);	//Copies the data we received from the stream into the token, removing the newling char
+	token = buffer.slice(0, buffer.length - 1);	//Copies the data we received from the stream into the token, removing the newline char
 	buffer = [];				//Empty our buffer
 	client.login(token);			//Now that we have the token, we can login
 });
@@ -84,7 +87,7 @@ function checkIfMemeInList(meme) {
 function addMemeToList(meme) {
 	//add meme to file
 	let stream = fs.createWriteStream('memes.txt', {flags: 'a'});
-	stream.write('\" \"' + meme);
+	stream.write(MEME_DELIMITER + meme);
 	stream.end();
 	//add meme to sorted array
 	let i;
@@ -94,9 +97,9 @@ function addMemeToList(meme) {
 }
 
 
-client.on('ready', () => {
-	//TODO: Convert this into a stream to hopefully optimize speed more (Since it's a fairly lare file.)
-	memes = fs.readFileSync('memes.txt', 'utf8').split('\" \"');	//since I want memes to be able to span multiple lines, each entry is separated by 2 quotation marks, to symbolize it being a quote
+client.once('ready', () => {
+	//TODO: Convert this into a stream to hopefully optimize speed more (Since it's a fairly large file.)
+	memes = fs.readFileSync('memes.txt', 'utf8').split(MEME_DELIMITER);
 	memes.sort();
 	console.log('Boolin');
 })
@@ -111,10 +114,10 @@ client.on('message', message => {
 	if (Math.floor(Math.random() * 50) == 0) {
 		switch (Math.floor(Math.random() * 2)) {
 		case 0:
-			message.channel.sendMessage('<:virgin:612839782019629086>');
+			message.channel.send('<:virgin:612839782019629086>');
 			break;
 		case 1:
-			message.channel.sendMessage('<:chad:612839780106895390>');
+			message.channel.send('<:chad:612839780106895390>');
 			break;
 		}
 	}
@@ -125,14 +128,14 @@ client.on('message', message => {
 		if (message.mentions.users.first().username === 'magiceightbot') {
 			switch (Math.floor(Math.random() * 2)) {
 			case 0:
-				message.channel.sendMessage('Let me see...');
+				message.channel.send('Let me see...');
 				break;
 			case 1:
-				message.channel.sendMessage('Hmmmmm...');
+				message.channel.send('Hmmmmm...');
 				break;
 			}
 
-			message.channel.sendMessage(responses[Math.floor(Math.random() * responses.length)]);
+			message.channel.send(responses[Math.floor(Math.random() * responses.length)]);
 		}
 	}
 	//roll command
@@ -140,24 +143,24 @@ client.on('message', message => {
 		roll_command = message.content.split(' '); //put the command and its arguments in an array
 		//The second first (and only) argument of the array should be the number of digits generated (1-9, 9 by default)
 		if (roll_command.length == 1)
-			message.channel.sendMessage(Math.round(Math.random() * 1000000000));
+			message.channel.send(Math.round(Math.random() * 1000000000));
 		else if (roll_command.length == 2) {
 			let roll_count = parseInt(roll_command[1]);
 			if (roll_count != NaN && roll_count >= 1 && roll_count < 10)
-				message.channel.sendMessage(Math.round(Math.random() * (Math.pow(10, roll_command[1]))));
+				message.channel.send(Math.round(Math.random() * (Math.pow(10, roll_command[1]))));
 		}
 	}
 	//meme command
-	else if (message.content == '!meme')
-		message.channel.sendMessage(memes[Math.floor(Math.random() * memes.length)]);
+	else if (message.content === '!meme')
+		message.channel.send(memes[Math.floor(Math.random() * memes.length)]);
 	//add meme command
 	else if (message.content.length >= 9 && message.content.substring(0, 8) === '!addmeme') {
 		var memeinquestion = message.content.substring(9, message.content.length);
 		if (checkIfMemeInList(memeinquestion) != -1)
-			message.channel.sendMessage(`\"${memeinquestion}\" is already in the list`);
+			message.channel.send(`\"${memeinquestion}\" is already in the list`);
 		else {
 			addMemeToList(memeinquestion);
-			message.channel.sendMessage(`\"${memeinquestion}\" has been added to the list`);
+			message.channel.send(`\"${memeinquestion}\" has been added to the list`);
 		}
 	}
 	//fortune command

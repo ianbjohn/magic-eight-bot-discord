@@ -1,0 +1,22 @@
+{
+  "name": "magiceightbot",
+  "version": "1.1.3",
+  "description": "A Magic Eight Ball bot and more for Discord",
+  "main": "magiceightbot.js",
+  "scripts": {
+    "test": "!test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianbjohn/Magic-Eight-Bot-Discord.git"
+  },
+  "author": "Ian Johnson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ianbjohn/Magic-Eight-Bot-Discord/issues"
+  },
+  "homepage": "https://github.com/ianbjohn/Magic-Eight-Bot-Discord#readme",
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  }
+}
